@@ -26,10 +26,41 @@ namespace AssignmentOne
     {
 
         private string? studentID;
+        private string firstName;
+        private string middleName;
+        private string lastName;
 
-        public string? FirstName { get; set; }
-        public string? MiddleName { get; set; }
-        public string? LastName { get; set; }
+        public string? FirstName { 
+            get { return firstName; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    firstName = char.ToUpper(value[0]) + value.Substring(1);
+                }
+            }
+        }
+        public string? MiddleName 
+        { 
+            get { return middleName; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    middleName = char.ToUpper(value[0]) + value.Substring(1);
+                }
+            }
+        }
+        public string? LastName {
+            get { return lastName; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    lastName = char.ToUpper(value[0]) + value.Substring(1);
+                }
+            }
+        }
         public string? StudentID
         {
             get { return studentID; }
