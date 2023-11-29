@@ -78,6 +78,8 @@ namespace AssignmentOne
         public Department Department { get; set; }
         public Degree Degree { get; set; }
 
+        public Semester? Semester { get; set; } 
+
         
 
         public void ShowById(String studentID)

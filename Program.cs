@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data.Common;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,8 @@ namespace AssignmentOne
     {
 
         public static List<string> StudentList = new List<string>();
+
+        public static List<Course> Courses = new List<Course>();
         public static string ConvertToJson(Student student)
         {
             string Json = JsonConvert.SerializeObject(student);
@@ -136,12 +139,47 @@ namespace AssignmentOne
                 {
                     StudentList.Remove(studentJson);
                     Console.Clear();
-                    Console.WriteLine("Succesfully deleted.\n Press any key to exit.");
+                    Console.WriteLine("Succesfully deleted.\n\nPress any key to exit.");
                     Console.ReadKey();
                     return;
                 }
             }
             throw new ArgumentException($"No student found by id: {studentId}");
+        }
+
+        public static void AddCourses(string studenId)
+        {
+            Semester semester = new Semester();
+            semester.courses = new List<Course>();
+            Courses.ForEach(student => Console.WriteLine(student.ToString()));
+            Console.WriteLine("Enter your choice: ");
+            int Choice = int.Parse(Console.ReadLine());
+            
+            Courses.ForEach(course => {
+                if (course.Id == Choice)
+                {
+                    semester.courses.Add(course);
+                }
+            });
+
+            semester.courses.ForEach(course => Console.WriteLine(course.CourseId));
+
+            Console.ReadKey();
+
+            
+        }
+
+        public static bool IsStudent(string studentId)
+        {
+            foreach(string student in StudentList)
+            {
+                Student studentObject = JsonConvert.DeserializeObject<Student>(student);
+                if (studentId == studentObject.StudentID)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         
         static void Main(string[] args)
@@ -157,6 +195,36 @@ namespace AssignmentOne
             };
 
             AddToList(student1);
+
+            Course course1 = new Course{
+                Id = 1,
+                CourseId = "CSE 101",
+                CourseName = "Programming for everybody",
+                InstructorName = "Andrew Tate",
+                NumberOfCredits = 3,
+            };
+
+            Courses.Add(course1);
+
+            Course course2 = new Course{
+                Id = 2,
+                CourseId = "POL 101",
+                CourseName = "Politics for everybody",
+                InstructorName = "Sefatullah",
+                NumberOfCredits = 3,
+            };
+
+            Courses.Add(course2);
+
+            Course course3 = new Course{
+                Id = 3,
+                CourseId = "BIO 203",
+                CourseName = "Introduction to evolutionary biology",
+                InstructorName = "Darwin Ahmed",
+                NumberOfCredits = 3
+            };
+
+            Courses.Add(course3);
 
             while (true)
             {
@@ -216,6 +284,23 @@ namespace AssignmentOne
                                     Console.WriteLine(ex.Message);
                                 }
                             }
+                            break;
+                        case 4:          
+                            while (true)
+                            {
+                                Console.WriteLine("Enter student id:");
+                                string studentIdInput = Console.ReadLine();
+                                if (IsStudent(studentIdInput))
+                                {
+                                    AddCourses(studentIdInput);
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"There is no student with Id: {studentIdInput}");
+                                }
+                            }
+                            
                             break;
                     }
                 }
