@@ -10,7 +10,6 @@ namespace AssignmentOne
 {
     public class Program
     {
-
         public static List<string> StudentList = new List<string>();
 
         public static List<Course> Courses = new List<Course>();
@@ -31,6 +30,7 @@ namespace AssignmentOne
         {
             Console.Clear();
             Student student = new Student();
+            Semester semester = new Semester();
 
             Console.WriteLine("===============Add student===================");
 
@@ -100,6 +100,39 @@ namespace AssignmentOne
                 }
             }
 
+            Console.WriteLine("1. Fall");
+            Console.WriteLine("2. Summmer");
+            Console.WriteLine("3. Spring");
+
+            while (true)
+            {
+                Console.WriteLine("Enter semester:");
+                int choice = int.Parse(Console.ReadLine());
+                if (Enum.IsDefined(typeof(SemesterCode), choice))
+                {
+                    semester.SemesterCode = (SemesterCode)choice; 
+                    student.Semester = semester; break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid semester.");
+                }
+            }
+
+            while (true)
+            {
+                Console.WriteLine("Enter semester year:");
+                string year = Console.ReadLine();
+                if (DataValidator.IsYear(year))
+                {
+                    semester.Year = year; break;
+                }
+                else
+                {
+                    Console.WriteLine("Not a valid year.");
+                }
+            }
+
 
             AddToList(student);
         }
@@ -135,7 +168,7 @@ namespace AssignmentOne
             foreach(string studentJson in StudentList)
             {
                 Student studentObject = JsonConvert.DeserializeObject<Student>(studentJson);
-                if (studentObject.StudentID == studentId)
+                if (DataValidator.IsStudent(studentId, StudentList))
                 {
                     StudentList.Remove(studentJson);
                     Console.Clear();
@@ -150,36 +183,35 @@ namespace AssignmentOne
         public static void AddCourses(string studenId)
         {
             Semester semester = new Semester();
-            semester.courses = new List<Course>();
+            Console.Clear();
             Courses.ForEach(student => Console.WriteLine(student.ToString()));
-            Console.WriteLine("Enter your choice: ");
-            int Choice = int.Parse(Console.ReadLine());
-            
-            Courses.ForEach(course => {
-                if (course.Id == Choice)
+
+            while(true)
+            {
+                Console.WriteLine("Enter your choice: ");
+                int Choice = int.Parse(Console.ReadLine());
+
+                if (Choice == 0)
                 {
-                    semester.courses.Add(course);
+                    break;
                 }
-            });
+                
+                Courses.ForEach(course => {
+                    if (course.Id == Choice)
+                    {
+                        semester.courses.Add(course);
+                        Console.WriteLine($"{course.CourseId} added.");
+                        Console.WriteLine();
+                    }
+                });
+            }
+            
 
             semester.courses.ForEach(course => Console.WriteLine(course.CourseId));
 
             Console.ReadKey();
 
             
-        }
-
-        public static bool IsStudent(string studentId)
-        {
-            foreach(string student in StudentList)
-            {
-                Student studentObject = JsonConvert.DeserializeObject<Student>(student);
-                if (studentId == studentObject.StudentID)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
         
         static void Main(string[] args)
@@ -290,7 +322,7 @@ namespace AssignmentOne
                             {
                                 Console.WriteLine("Enter student id:");
                                 string studentIdInput = Console.ReadLine();
-                                if (IsStudent(studentIdInput))
+                                if (DataValidator.IsStudent(studentIdInput, StudentList))
                                 {
                                     AddCourses(studentIdInput);
                                     break;

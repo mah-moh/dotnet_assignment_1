@@ -12,6 +12,6 @@ namespace AssignmentOne
 
         public SemesterCode SemesterCode { get; set; }
 
-        public List<Course> courses;
+        public List<Course> courses = new List<Course>();
     }
 }

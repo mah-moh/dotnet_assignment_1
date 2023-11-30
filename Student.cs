@@ -26,9 +26,9 @@ namespace AssignmentOne
     {
 
         private string? studentID;
-        private string firstName;
-        private string middleName;
-        private string lastName;
+        private string? firstName;
+        private string? middleName;
+        private string? lastName;
 
         public string? FirstName { 
             get { return firstName; }
@@ -66,7 +66,7 @@ namespace AssignmentOne
             get { return studentID; }
             set 
             {
-                if (!IsValidStudentID(value))
+                if (!DataValidator.IsValidStudentID(value))
                 {
                     throw new ArgumentException("Invalid Student ID format. Expected format: XXX-XXX-XXX");
                 }
@@ -90,11 +90,6 @@ namespace AssignmentOne
                 Console.WriteLine(student1);
                 
             }
-        }
-
-        private bool IsValidStudentID(string studentID)
-        {
-            return System.Text.RegularExpressions.Regex.IsMatch(studentID, @"^\d{3}-\d{3}-\d{3}$");
         }
     }
 }
