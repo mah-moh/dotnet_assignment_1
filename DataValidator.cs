@@ -26,5 +26,10 @@ namespace AssignmentOne
             }
             return false;
         }
+
+        public static bool IsCourseId(string courseId)
+        {
+            return System.Text.RegularExpressions.Regex.IsMatch(courseId, @"^[A-Za-z]{3}\s\d{3}$");
+        }
     }
 }

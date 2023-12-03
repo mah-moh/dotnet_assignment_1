@@ -12,13 +12,13 @@ namespace AssignmentOne
             } 
             set
             {
-                if (System.Text.RegularExpressions.Regex.IsMatch(value, @"^[A-Za-z]{3}\s\d{3}$"))
+                if (DataValidator.IsCourseId(value))
                 {
                     courseId = value;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid input format [XXX YYYY]");
+                    throw new ArgumentException("Invalid input format [XXX YYY]");
                 }
             } 
         }
