@@ -78,18 +78,39 @@ namespace AssignmentOne
         public Department Department { get; set; }
         public Degree Degree { get; set; }
 
-        public Semester? Semester { get; set; } 
+        public Semester? Semester { get; set; }
 
-        
-
-        public void ShowById(String studentID)
+        public void ToString()
         {
-            foreach(string student in Program.StudentList)
+            Console.Clear();
+
+            Console.WriteLine("==========Student's details===========\n");
+            Console.WriteLine($"First name: {FirstName}");
+            Console.WriteLine($"Middle name: {MiddleName}");
+            Console.WriteLine($"Last name: {LastName}");
+            Console.WriteLine($"Student ID: {StudentID}");
+            Console.WriteLine($"Joining Batch: {JoiningBatch}");
+            Console.WriteLine($"Department: {Department}");
+            Console.WriteLine($"Degree: {Degree}");
+
+            if (Semester != null)
             {
-                var student1 = JsonConvert.DeserializeObject(student);
-                Console.WriteLine(student1);
-                
+                Console.Write($"Semester: {Semester.SemesterCode}     ");
+                Console.WriteLine(Semester.Year);
+
+                Console.WriteLine("Courses: \n");
+
+                foreach( var course in Semester.courses)
+                {
+                    Console.Write($"{course.CourseId}   ");
+                    Console.WriteLine(course.CourseName);
+                }
             }
+            
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return.");
+            Console.ReadKey();
         }
     }
 }

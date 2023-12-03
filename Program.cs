@@ -100,6 +100,48 @@ namespace AssignmentOne
                 }
             }
 
+            AddToList(student);
+        }
+
+        public static void DisplayById(string studentId)
+        {
+            
+            foreach(string StudentJson in StudentList)
+            {
+                Student studentObject = JsonConvert.DeserializeObject<Student>(StudentJson);
+                if (studentObject.StudentID == studentId)
+                {
+                    studentObject.ToString();
+                    return;
+                }
+            }
+            throw new ArgumentException("Invalid input.");
+        }
+
+        public static void DeleteStudent(string studentId)
+        {
+            foreach(string studentJson in StudentList)
+            {
+                Student studentObject = JsonConvert.DeserializeObject<Student>(studentJson);
+                if (DataValidator.IsStudent(studentId, StudentList)  && studentId == studentObject.StudentID)
+                {
+                    StudentList.Remove(studentJson);
+                    Console.Clear();
+                    Console.WriteLine("Succesfully deleted.\n\nPress any key to return.");
+                    Console.ReadKey();
+                    return;
+                }
+            }
+            throw new ArgumentException($"No student found by id: {studentId}");
+        }
+
+        public static void AddSemesterAndCourses(string studenId)
+        {
+            Semester semester = new Semester();
+            Student student = new Student();
+            Console.Clear();
+            Console.WriteLine("=============Add Semester==============");
+
             Console.WriteLine("1. Fall");
             Console.WriteLine("2. Summmer");
             Console.WriteLine("3. Spring");
@@ -133,58 +175,11 @@ namespace AssignmentOne
                 }
             }
 
-
-            AddToList(student);
-        }
-
-        public static void DisplayById(string studentId)
-        {
-            
-            foreach(string StudentJson in StudentList)
-            {
-                Student studentObject = JsonConvert.DeserializeObject<Student>(StudentJson);
-                if (studentObject.StudentID == studentId)
-                {
-                    Console.Clear();
-                    Console.WriteLine($"First name: {studentObject.FirstName}");
-                    Console.WriteLine($"Middle name: {studentObject.MiddleName}");
-                    Console.WriteLine($"Last name: {studentObject.LastName}");
-                    Console.WriteLine($"Student ID: {studentObject.StudentID}");
-                    Console.WriteLine($"Joining Batch: {studentObject.JoiningBatch}");
-                    Console.WriteLine($"Department: {studentObject.Department}");
-                    Console.WriteLine($"Degree: {studentObject.Degree}");
-
-                    Console.WriteLine();
-                    Console.WriteLine("Press any key to exit.");
-                    Console.ReadKey();
-                    return;
-                }
-            }
-            throw new ArgumentException("Invalid input.");
-        }
-
-        public static void DeleteStudent(string studentId)
-        {
-            foreach(string studentJson in StudentList)
-            {
-                Student studentObject = JsonConvert.DeserializeObject<Student>(studentJson);
-                if (DataValidator.IsStudent(studentId, StudentList))
-                {
-                    StudentList.Remove(studentJson);
-                    Console.Clear();
-                    Console.WriteLine("Succesfully deleted.\n\nPress any key to exit.");
-                    Console.ReadKey();
-                    return;
-                }
-            }
-            throw new ArgumentException($"No student found by id: {studentId}");
-        }
-
-        public static void AddCourses(string studenId)
-        {
-            Semester semester = new Semester();
             Console.Clear();
+            Console.WriteLine("===========Add courses================");
             Courses.ForEach(student => Console.WriteLine(student.ToString()));
+
+            Console.WriteLine("Enter 0 to exit.\n");
 
             while(true)
             {
@@ -205,13 +200,24 @@ namespace AssignmentOne
                     }
                 });
             }
-            
 
-            semester.courses.ForEach(course => Console.WriteLine(course.CourseId));
+            List<string> TempStudentList = new List<string>();
 
-            Console.ReadKey();
+            StudentList.ForEach(student => 
+            {
+                Student studentObject = JsonConvert.DeserializeObject<Student>(student);
+                if (studenId == studentObject.StudentID)
+                {
+                    studentObject.Semester = semester;
+                    TempStudentList.Add(JsonConvert.SerializeObject(studentObject));
+                }
+                else
+                {
+                    TempStudentList.Add(student);
+                }
+            });
 
-            
+            StudentList = TempStudentList;
         }
         
         static void Main(string[] args)
@@ -261,17 +267,27 @@ namespace AssignmentOne
             while (true)
             {
                 Console.Clear();
+
+                Console.WriteLine("Name                     Student ID");
+
+                StudentList.ForEach(student1 => {
+                    Student studentObject = JsonConvert.DeserializeObject<Student>(student1);
+                    Console.Write($"{studentObject.FirstName} {studentObject.LastName}  ");
+                    Console.WriteLine($"    {studentObject.StudentID}");
+                });
+
+                Console.WriteLine();
+
                 Console.WriteLine("==============================");
                 Console.WriteLine("0. Exit.");
                 Console.WriteLine("1. Add student.");
                 Console.WriteLine("2. Delete student.");
                 Console.WriteLine("3. Show student's detail.");
+                Console.WriteLine("4. Add semester and courses.");
                 Console.WriteLine("===============================");
                 Console.WriteLine();
 
                 Console.WriteLine("Enter your choice:");
-
-                StudentList.ForEach(student => Console.WriteLine(student));
 
                 string? userInput = Console.ReadLine();
                 
@@ -324,7 +340,7 @@ namespace AssignmentOne
                                 string studentIdInput = Console.ReadLine();
                                 if (DataValidator.IsStudent(studentIdInput, StudentList))
                                 {
-                                    AddCourses(studentIdInput);
+                                    AddSemesterAndCourses(studentIdInput);
                                     break;
                                 }
                                 else
