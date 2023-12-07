@@ -1,61 +1,57 @@
+using System.ComponentModel.DataAnnotations;
+
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace assignment_1_webapi.Models;
 
 public class StudentModel
 {
-    private string? studentID;
     private string? firstName;
     private string? middleName;
     private string? lastName;
 
-    public string? FirstName { 
+    [Required]
+    public string? FirstName 
+    { 
         get { return firstName; }
-        set
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                firstName = char.ToUpper(value[0]) + value.Substring(1);
-            }
-        }
+        set { firstName = MakeFirstCharUpper(value); }
     }
+
+
     public string? MiddleName 
     { 
         get { return middleName; }
-        set
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                middleName = char.ToUpper(value[0]) + value.Substring(1);
-            }
-        }
-    }
-    public string? LastName {
-        get { return lastName; }
-        set
-        {
-            if (!string.IsNullOrEmpty(value))
-            {
-                lastName = char.ToUpper(value[0]) + value.Substring(1);
-            }
-        }
-    }
-    public string? StudentID
-    {
-        get { return studentID; }
-        set 
-        {
-            if (!DataValidator.IsValidStudentID(value))
-            {
-                throw new ArgumentException("Invalid Student ID format. Expected format: XXX-XXX-XXX");
-            }
-            studentID = value;
-        }
+        set { middleName = MakeFirstCharUpper(value); }
     }
 
+    [Required]
+    public string? LastName {
+        get { return lastName; }
+        set { lastName = MakeFirstCharUpper(value); }
+    }
+
+    [Required]
+    [IsValidStudentID]
+    public string StudentID { get; set; }
+
     public string? JoiningBatch { get; set; }
+
+    [Required]
     public Department Department { get; set; }
+
+    [Required]
     public Degree Degree { get; set; }
 
     public SemesterModel? Semester { get; set; }
+
+    private string MakeFirstCharUpper(string value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            value = char.ToUpper(value[0]) + value.Substring(1);
+        }
+        return value;
+    }
 }
 
 public enum Degree
