@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace assignment_1_webapi.Controllers
@@ -10,6 +6,10 @@ namespace assignment_1_webapi.Controllers
     [Route("api/[controller]")]
     public class DeleteStudentController : ControllerBase
     {
-        
+        [HttpDelete]
+        public IActionResult Delete()
+        {
+            return Ok("deleted.");
+        }
     }
 }

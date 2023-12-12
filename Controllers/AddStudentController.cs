@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Mvc;
 
-using assignment_1_webapi.Models;
+using assignment_1_webapi.Entities;
 
 namespace assignment_1_webapi.Controllers
 {

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace assignment_1_webapi.Models;
+namespace assignment_1_webapi.Entities;
 
 public class StudentModel
 {

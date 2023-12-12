@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using assignment_1_webapi.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace assignment_1_webapi.Controllers
@@ -10,6 +7,15 @@ namespace assignment_1_webapi.Controllers
     [Route("api/[controller]")]
     public class AddSemesterController : ControllerBase
     {
+        [HttpPost]
+        public IActionResult Add([FromBody] SemesterModel semesterModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ValidationProblem(ModelState);
+            }
+            return Ok("Semester added.");
+        }
         
     }
 }

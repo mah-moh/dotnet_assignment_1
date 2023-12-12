@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace assignment_1_webapi.Models.Validators
+namespace assignment_1_webapi.Entities.Validators
 {
     public class IsYearAttribute : ValidationAttribute
     {

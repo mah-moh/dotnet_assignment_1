@@ -1,6 +1,6 @@
-using assignment_1_webapi.Models.Validators;
+using assignment_1_webapi.Entities.Validators;
 
-namespace assignment_1_webapi.Models;
+namespace assignment_1_webapi.Entities;
 
 public class SemesterModel
 {

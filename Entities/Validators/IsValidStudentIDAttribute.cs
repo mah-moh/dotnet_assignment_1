@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace assignment_1_webapi.Models;
+namespace assignment_1_webapi.Entities;
 
 public class IsValidStudentIDAttribute : ValidationAttribute
 {

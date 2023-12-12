@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+
+using assignment_1_webapi.Data;
+
 
 namespace assignment_1_webapi.Controllers
 {
@@ -10,6 +9,17 @@ namespace assignment_1_webapi.Controllers
     [Route("api/[controller]")]
     public class GetCoursesController : ControllerBase
     {
-        
+        private readonly ApplicationDbContext _context;
+        public GetCoursesController( ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var data = _context.courseModels.ToList();
+            return Ok(data);
+        }
     }
 }
