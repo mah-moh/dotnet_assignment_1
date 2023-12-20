@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using assignment_1_webapi.Data;
+using Microsoft.AspNetCore.Mvc;
+
 using assignment_1_webapi.DTOs;
 using assignment_1_webapi.Entities;
 using assignment_1_webapi.Services;
-using Microsoft.AspNetCore.Mvc;
 
 namespace assignment_1_webapi.Controllers
 {
@@ -27,6 +23,21 @@ namespace assignment_1_webapi.Controllers
             _service.AddSemester(semester);
 
             return Ok("Semester added.");
+        }
+
+        [HttpGet("GetAll")]
+        public IActionResult Get()
+        {
+            var semesterCode = Enum.GetValues(typeof(SemesterCode))
+                        .Cast<SemesterCode>()
+                        .Select((value, _) => new EnumDto
+                        {
+                            Index = (int)value,
+                            Value = value.ToString()
+                        })
+                        .ToList();
+    
+            return Ok(semesterCode);
         }
     }
 }

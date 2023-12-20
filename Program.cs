@@ -1,10 +1,7 @@
-﻿using assignment_1_webapi.Data;
-using assignment_1_webapi.DTOs;
-using assignment_1_webapi.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+
+using assignment_1_webapi.Data;
 using assignment_1_webapi.Services;
-using AutoMapper;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
  

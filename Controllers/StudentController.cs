@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 
-using assignment_1_webapi.DTOs;
 using assignment_1_webapi.Services;
 using assignment_1_webapi.Entities;
 
@@ -37,15 +36,16 @@ namespace assignment_1_webapi.Controllers
             return Ok("Successfully deleted.");
         }
 
-        // [HttpGet]
-        // public IActionResult GetAll ()
-        // {
-        //     throw new Exception();
-        // }
+        [HttpGet("GetAll")]
+        public IActionResult GetAll ()
+        {
+            return Ok(_service.GetAllStudents());
+        }
 
-        // public IActionResult Get ( string studentId )
-        // {
-        //     throw new Exception();
-        // }
+        [HttpGet("Get")]
+        public IActionResult Get ( string studentId )
+        {
+            return Ok(_service.GetStudentById(studentId));
+        }
     }
 }

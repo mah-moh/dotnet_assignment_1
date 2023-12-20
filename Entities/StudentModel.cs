@@ -39,6 +39,8 @@ public class StudentModel
 
     public Department department { get; set; }
 
+    public ICollection<SemesterModel>? Semesters { get; set; }
+
     private string MakeFirstCharUpper(string value)
     {
         if (!string.IsNullOrEmpty(value))
