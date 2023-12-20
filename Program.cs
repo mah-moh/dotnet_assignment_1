@@ -1,4 +1,9 @@
 ﻿using assignment_1_webapi.Data;
+using assignment_1_webapi.DTOs;
+using assignment_1_webapi.Entities;
+using assignment_1_webapi.Services;
+using AutoMapper;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +19,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ISemesterService, SemesterService>();
 
 var app = builder.Build();
 

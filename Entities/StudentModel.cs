@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 
-using Microsoft.AspNetCore.Http.HttpResults;
-
 namespace assignment_1_webapi.Entities;
 
 public class StudentModel
@@ -30,19 +28,16 @@ public class StudentModel
         set { lastName = MakeFirstCharUpper(value); }
     }
 
+    [Key]
     [Required]
     [IsValidStudentID]
     public string StudentID { get; set; }
 
     public string? JoiningBatch { get; set; }
 
-    [Required]
-    public Department Department { get; set; }
+    public Degree degree { get; set; }
 
-    [Required]
-    public Degree Degree { get; set; }
-
-    public SemesterModel? Semester { get; set; }
+    public Department department { get; set; }
 
     private string MakeFirstCharUpper(string value)
     {
@@ -70,3 +65,4 @@ public enum Department
     BBA,
     English,
 }
+

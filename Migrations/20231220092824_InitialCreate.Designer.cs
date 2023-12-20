@@ -12,7 +12,7 @@ using assignment_1_webapi.Data;
 namespace assignment_1_webapi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231212073137_InitialCreate")]
+    [Migration("20231220092824_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace assignment_1_webapi.Migrations
 
             modelBuilder.Entity("assignment_1_webapi.Entities.CourseModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
 
                     b.Property<string>("CourseId")
                         .HasColumnType("nvarchar(max)");
@@ -50,15 +50,50 @@ namespace assignment_1_webapi.Migrations
                     b.ToTable("courseModels");
                 });
 
+            modelBuilder.Entity("assignment_1_webapi.Entities.SemesterCoursesModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SemesterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("SemesterId");
+
+                    b.ToTable("semesterCoursesModels");
+                });
+
             modelBuilder.Entity("assignment_1_webapi.Entities.SemesterModel", b =>
                 {
+                    b.Property<int>("SemesterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SemesterId"));
+
                     b.Property<int>("SemesterCode")
                         .HasColumnType("int");
 
                     b.Property<string>("Year")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SemesterCode");
+                    b.Property<string>("studentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("SemesterId");
+
+                    b.HasIndex("studentId");
 
                     b.ToTable("semesterModels");
                 });
@@ -86,25 +121,45 @@ namespace assignment_1_webapi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MiddleName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SemesterCode")
-                        .HasColumnType("int");
 
                     b.HasKey("StudentID");
 
-                    b.HasIndex("SemesterCode");
+                    b.HasIndex("StudentID")
+                        .IsUnique();
 
                     b.ToTable("studentModels");
                 });
 
-            modelBuilder.Entity("assignment_1_webapi.Entities.StudentModel", b =>
+            modelBuilder.Entity("assignment_1_webapi.Entities.SemesterCoursesModel", b =>
                 {
+                    b.HasOne("assignment_1_webapi.Entities.CourseModel", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("assignment_1_webapi.Entities.SemesterModel", "Semester")
                         .WithMany()
-                        .HasForeignKey("SemesterCode");
+                        .HasForeignKey("SemesterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
 
                     b.Navigation("Semester");
+                });
+
+            modelBuilder.Entity("assignment_1_webapi.Entities.SemesterModel", b =>
+                {
+                    b.HasOne("assignment_1_webapi.Entities.StudentModel", "Student")
+                        .WithMany()
+                        .HasForeignKey("studentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 #pragma warning restore 612, 618
         }
