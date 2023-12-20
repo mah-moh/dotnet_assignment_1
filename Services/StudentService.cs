@@ -48,7 +48,7 @@ public class StudentService : IStudentService
         if ( student == null )
             throw new KeyNotFoundException ( $"No student with id : {studentId}");
 
-        Console.WriteLine(_context.semesterModels.Where( semester => semester.studentId == studentId));
+        Console.WriteLine(_context.semesterModels.Where( semester => semester.studentId == studentId).ToList());
         
 
         return student;

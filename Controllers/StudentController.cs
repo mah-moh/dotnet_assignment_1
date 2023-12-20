@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 
 using assignment_1_webapi.Services;
 using assignment_1_webapi.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace assignment_1_webapi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("api/[controller]")]
     public class StudentController : ControllerBase
