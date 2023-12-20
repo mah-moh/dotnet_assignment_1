@@ -9,6 +9,7 @@ namespace assignment_1_webapi.Data
         public MapperProfile()
         {
             CreateMap<SemesterModel, SemesterAddDto>().ReverseMap();
+            CreateMap<StudentModel, CreateStudentDto>().ReverseMap();
         }
     }
 }

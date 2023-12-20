@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using assignment_1_webapi.DTOs;
 using assignment_1_webapi.Entities;
 using assignment_1_webapi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace assignment_1_webapi.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class SemesterController : ControllerBase
     {

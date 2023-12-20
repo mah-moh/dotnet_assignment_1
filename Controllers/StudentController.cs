@@ -4,10 +4,11 @@ using assignment_1_webapi.Services;
 using assignment_1_webapi.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using assignment_1_webapi.DTOs;
 
 namespace assignment_1_webapi.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class StudentController : ControllerBase
@@ -20,7 +21,7 @@ namespace assignment_1_webapi.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Add ([FromBody] StudentModel newStudent)
+        public IActionResult Add ([FromBody] CreateStudentDto newStudent)
         {
             if (!ModelState.IsValid) 
             {

@@ -1,10 +1,12 @@
 using assignment_1_webapi.Data;
 using assignment_1_webapi.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace assignment_1_webapi.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class CourseController : ControllerBase
     {
